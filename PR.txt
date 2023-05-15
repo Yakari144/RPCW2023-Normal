@@ -1,0 +1,17 @@
+1.1> Não efetuei alterações no dataset. Para testar usei "use scienceJobs; db.contracts.count(); db.contracts.findOne()"
+1.2>usando primariamente "use scienceJobs" para todas as alineas
+    .1> usando a query "db.contracts.count()" ou "db.contracts.countDocuments()" concluo que existem 17943 contratos na base de dados
+    .2> com a query "db.contracts.find({NomeInstituicao:{$regex:'Universidade do Minho'}}).count()" obtive o valor 1104 contratos.
+    .3> "db.contracts.distinct("AreaCNAEF").sort()" retorna o valor pedido
+    .4> "db.contracts.aggregate([{$group:{_id: {$substr:["$DataInicioContrato",6,10]} ,count:{$sum:1}}}])"
+    .5> "db.contracts.aggregate([{$group:{_id:"$NomeInstituicao",count:{$sum:1}}}])"
+1.3> utilizei "_id" como o identificador e "NomeInstituicao" para tudo o que trata de instituições.
+
+Para preparar a base de dados mongodb, dentro da diretoria ex1 executar os seguintes comandos:
+>mkdir db
+>sudo mongod --dbpath db/
+Em outra janela de terminal, dentro da diretoria ex1 executar os seguintes comandos:
+>mongoimport -d scienceJobs -c contracts --file emprego-cientifico.json --jsonArray
+
+De seguida, para executar o ex1 é necessário entrar na diretoria 'ex1', executar "npm i" e correr com "npm start", sendo que este depende do mongodb, o mongodb também tem de estar a correr.
+Por fim, para executar o ex2 é necessário entrar na diretoria 'ex2', executar "npm i" e correr com "npm start", sendo que este depende da API de dados do ex1, o ex1 também tem de estar a correr.
